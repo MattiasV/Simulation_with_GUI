@@ -9,10 +9,10 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 class GUI_setup(QtWidgets.QMainWindow, threading.Thread):
-    def __init__(self, g1, *args, **kwargs):
+    def __init__(self, variables, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.g1 = g1
+        self.vars = variables
 
         self.graphWidget = pg.PlotWidget()
         self.setCentralWidget(self.graphWidget)
@@ -34,15 +34,15 @@ class GUI_setup(QtWidgets.QMainWindow, threading.Thread):
         self.graphWidget.plot(x, y)
 
     def velocity(self):
-        self.g1.params.max_vel = self.ui.maxVelocitySlider.value()
+        self.vars.params.max_vel = self.ui.maxVelocitySlider.value()
 
     def FPS(self):
-        self.g1.params.fps = self.ui.FPSSlider.value()
-        print(self.g1.params.fps)
+        self.vars.params.fps = self.ui.FPSSlider.value()
+        print(self.vars.params.fps)
 
     def mutationRate(self):
-        self.g1.params.mutation_rate = self.ui.amountBotsSlider_2.value()
+        self.vars.params.mutation_rate = self.ui.amountBotsSlider_2.value()
 
     def botSlider(self):
         slider_bots = self.ui.amountBotsSlider.value()
-        self.g1.params.min_bots = slider_bots
+        self.vars.params.min_bots = slider_bots

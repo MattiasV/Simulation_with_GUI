@@ -11,6 +11,7 @@ from PyQt5 import QtWidgets
 from pygame import gfxdraw
 from Variables import VAR_class
 from GUI_functions import GUI_setup
+import unittest
 
 
 class create_bot:
@@ -162,10 +163,10 @@ class sim(threading.Thread):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        g1 = VAR_class()
-        self.g1 = g1
+        variables = VAR_class()
+        self.vars = variables
         app = QtWidgets.QApplication(sys.argv)
-        w = GUI_setup(g1)
+        w = GUI_setup(variables)
         w.showUI()
         self.w = w
         self.simulation()
@@ -173,12 +174,12 @@ class sim(threading.Thread):
 
     def simulation(self):
         pygame.init()
-        create_bot(self.g1, random.uniform(0, 800), random.uniform(0, 600), self.g1)
+        create_bot(self.vars, random.uniform(0, 800), random.uniform(0, 600), self.vars)
 
         for i in range(10):
-            self.g1.params.bots.append(
-                create_bot(self.g1, random.uniform(0, self.g1.params.game_width),
-                           random.uniform(0, self.g1.params.game_height)))
+            self.vars.params.bots.append(
+                create_bot(self.vars, random.uniform(0, self.vars.params.game_width),
+                           random.uniform(0, self.vars.params.game_height)))
 
         running = True
         oldest_ever_arr = []
@@ -187,27 +188,27 @@ class sim(threading.Thread):
 
         while running:
             # print(self.g1.params.oldest_ever)
-            self.g1.params.gameDisplay.fill(self.g1.params.black)
-            if len(self.g1.params.bots) < self.g1.params.min_bots or random.random() < 0.0001:
-                self.g1.params.bots.append(
-                    create_bot(self.g1, random.uniform(0, self.g1.params.game_width),
-                               random.uniform(0, self.g1.params.game_height)))
+            self.vars.params.gameDisplay.fill(self.vars.params.black)
+            if len(self.vars.params.bots) < self.vars.params.min_bots or random.random() < 0.0001:
+                self.vars.params.bots.append(
+                    create_bot(self.vars, random.uniform(0, self.vars.params.game_width),
+                               random.uniform(0, self.vars.params.game_height)))
             if random.random() < 0.1:
-                self.g1.params.food.append(numpy.array(
-                    [random.uniform(self.g1.params.boundary_size,
-                                    self.g1.params.game_width - self.g1.params.boundary_size),
-                     random.uniform(self.g1.params.boundary_size,
-                                    self.g1.params.game_height - self.g1.params.boundary_size)],
+                self.vars.params.food.append(numpy.array(
+                    [random.uniform(self.vars.params.boundary_size,
+                                    self.vars.params.game_width - self.vars.params.boundary_size),
+                     random.uniform(self.vars.params.boundary_size,
+                                    self.vars.params.game_height - self.vars.params.boundary_size)],
                     dtype='float64'))
             if random.random() < 0.01:
-                self.g1.params.poison.append(numpy.array(
-                    [random.uniform(self.g1.params.boundary_size,
-                                    self.g1.params.game_width - self.g1.params.boundary_size),
-                     random.uniform(self.g1.params.boundary_size,
-                                    self.g1.params.game_height - self.g1.params.boundary_size)],
+                self.vars.params.poison.append(numpy.array(
+                    [random.uniform(self.vars.params.boundary_size,
+                                    self.vars.params.game_width - self.vars.params.boundary_size),
+                     random.uniform(self.vars.params.boundary_size,
+                                    self.vars.params.game_height - self.vars.params.boundary_size)],
                     dtype='float64'))
-            if len(self.g1.params.poison) > self.g1.params.max_poison:
-                self.g1.params.poison.pop(0)
+            if len(self.vars.params.poison) > self.vars.params.max_poison:
+                self.vars.params.poison.pop(0)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -216,9 +217,9 @@ class sim(threading.Thread):
 
             # print(bots[0].position)
             # print((bots[0].position),(bots[0].position+(-size,0)),(bots[0].position+(-size/2,size)))
-            for bot in self.g1.params.bots[::-1]:
-                bot.eat(self.g1.params.food, 0)
-                bot.eat(self.g1.params.poison, 1)
+            for bot in self.vars.params.bots[::-1]:
+                bot.eat(self.vars.params.food, 0)
+                bot.eat(self.vars.params.poison, 1)
                 bot.boundaries()
                 # bot.seek(pygame.mouse.get_pos())
                 bot.update()
@@ -226,8 +227,8 @@ class sim(threading.Thread):
                 if (pygame.time.get_ticks() / 1000) % 1 == 0:
 
                     if not added:
-                        print(f'Oldest ever: {self.g1.params.oldest_ever}')
-                        oldest_ever_arr.append(self.g1.params.oldest_ever)
+                        print(f'Oldest ever: {self.vars.params.oldest_ever}')
+                        oldest_ever_arr.append(self.vars.params.oldest_ever)
                         time_arr.append(pygame.time.get_ticks())
                         print('plotting')
                         print(oldest_ever_arr)
@@ -236,26 +237,26 @@ class sim(threading.Thread):
                 else:
                     added = False
 
-                if bot.age > self.g1.params.oldest_ever:
-                    self.g1.params.oldest_ever = bot.age
-                    self.g1.params.oldest_ever_dna = bot.dna
+                if bot.age > self.vars.params.oldest_ever:
+                    self.vars.params.oldest_ever = bot.age
+                    self.vars.params.oldest_ever_dna = bot.dna
                 bot.draw_bot()
                 # pygame.draw.polygon(gameDisplay, bot.colour, ((bot.position),tuple(map(operator.add,bot.position,(-size,0))),tuple(map(operator.add,bot.position,(-size/2,size)))))
                 if bot.dead():
-                    self.g1.params.bots.remove(bot)
+                    self.vars.params.bots.remove(bot)
                 else:
                     bot.reproduce()
 
             # if random.random()<0.02:
             # bots.append(create_bot(random.uniform(0,game_width),random.uniform(0,game_height)))
 
-            for i in self.g1.params.food:
-                pygame.draw.circle(self.g1.params.gameDisplay, (0, 255, 0), (int(i[0]), int(i[1])), 3)
+            for i in self.vars.params.food:
+                pygame.draw.circle(self.vars.params.gameDisplay, (0, 255, 0), (int(i[0]), int(i[1])), 3)
             # pygame.draw.circle(gameDisplay, bot.colour, (int(self.position[0]), int(self.position[1])), 10)
-            for i in self.g1.params.poison:
-                pygame.draw.circle(self.g1.params.gameDisplay, (255, 0, 0), (int(i[0]), int(i[1])), 3)
+            for i in self.vars.params.poison:
+                pygame.draw.circle(self.vars.params.gameDisplay, (255, 0, 0), (int(i[0]), int(i[1])), 3)
             pygame.display.update()
-            self.g1.params.clock.tick(self.g1.params.fps)
+            self.vars.params.clock.tick(self.vars.params.fps)
 
         pygame.quit()
         quit()
