@@ -35,6 +35,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background: white</string>
+   </property>
    <property name="text">
     <string>Slider to change min bots</string>
    </property>
@@ -60,6 +63,9 @@
      <width>165</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: white</string>
    </property>
    <property name="text">
     <string>Slider to change mutation</string>
@@ -93,6 +99,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background: white</string>
+   </property>
    <property name="text">
     <string>FPS</string>
    </property>
@@ -121,6 +130,9 @@
      <width>165</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: white</string>
    </property>
    <property name="text">
     <string>Max Velocity</string>

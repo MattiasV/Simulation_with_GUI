@@ -14,6 +14,8 @@ class GUI_setup(QtWidgets.QMainWindow, threading.Thread):
 
         self.vars = variables
 
+        pg.setConfigOption('background', 'k')
+        pg.setConfigOption('foreground', 'w')
         self.graphWidget = pg.PlotWidget()
         self.setCentralWidget(self.graphWidget)
         self.ui = Ui_Sim()
