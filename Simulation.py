@@ -11,6 +11,7 @@ from PyQt5 import QtWidgets
 from pygame import gfxdraw
 from Variables import VAR_class
 from GUI_functions import GUI_setup
+from test_script import *
 import unittest
 
 
@@ -162,11 +163,12 @@ class sim(unittest.TestCase):
         super().__init__(*args, **kwargs)
         variables = VAR_class()
         self.vars = variables
+        TestSimulation.test_initial_max_force(self, self.vars.params.initial_max_force) #test
         app = QtWidgets.QApplication(sys.argv)
-        w = GUI_setup(variables)
+        w = GUI_setup(variables) # show graphical user interface
         w.showUI()
         self.w = w
-        self.simulation()
+        self.simulation()  # run the simulation
         sys.exit(app.exec_())
 
     def simulation(self):

@@ -17,6 +17,11 @@ class TestDivision(unittest.TestCase):
     def test_division_divmod(self):
         self.assertEqual(divmod(20,5), (4,0))
 
-if __name__ == '__main__':
-    TestSum()
-    TestDivision()
+class TestSimulation(unittest.TestCase):
+
+    def test_initial_max_force(self, initial_max_force):
+        self.assertEqual(initial_max_force, 0.5)
+#
+# if __name__ == '__main__':
+#     TestSum()
+#     TestDivision()
