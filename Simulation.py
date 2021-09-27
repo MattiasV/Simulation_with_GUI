@@ -35,7 +35,6 @@ class create_bot:
         self.age = 1
 
         if dna:
-            print("AAAAAAAAAAA")
             self.dna = []
             for i in range(len(dna)):
                 if random.random() < g1.params.mutation_rate:
@@ -95,8 +94,6 @@ class create_bot:
         steering_force = numpy.add(desired_vel, -self.velocity)
         steering_force = self.g1.params.normalise(self.g1, steering_force) * self.max_force
         return steering_force
-
-    # self.apply_force(steering_force)
 
     def eat(self, list_of_stuff, index):
         closest = None
@@ -187,7 +184,6 @@ class sim(threading.Thread):
         added = False
 
         while running:
-            # print(self.g1.params.oldest_ever)
             self.vars.params.gameDisplay.fill(self.vars.params.black)
             if len(self.vars.params.bots) < self.vars.params.min_bots or random.random() < 0.0001:
                 self.vars.params.bots.append(
@@ -213,15 +209,11 @@ class sim(threading.Thread):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-            # print(event)
 
-            # print(bots[0].position)
-            # print((bots[0].position),(bots[0].position+(-size,0)),(bots[0].position+(-size/2,size)))
             for bot in self.vars.params.bots[::-1]:
                 bot.eat(self.vars.params.food, 0)
                 bot.eat(self.vars.params.poison, 1)
                 bot.boundaries()
-                # bot.seek(pygame.mouse.get_pos())
                 bot.update()
 
                 if (pygame.time.get_ticks() / 1000) % 1 == 0:
@@ -241,18 +233,14 @@ class sim(threading.Thread):
                     self.vars.params.oldest_ever = bot.age
                     self.vars.params.oldest_ever_dna = bot.dna
                 bot.draw_bot()
-                # pygame.draw.polygon(gameDisplay, bot.colour, ((bot.position),tuple(map(operator.add,bot.position,(-size,0))),tuple(map(operator.add,bot.position,(-size/2,size)))))
+
                 if bot.dead():
                     self.vars.params.bots.remove(bot)
                 else:
                     bot.reproduce()
 
-            # if random.random()<0.02:
-            # bots.append(create_bot(random.uniform(0,game_width),random.uniform(0,game_height)))
-
             for i in self.vars.params.food:
                 pygame.draw.circle(self.vars.params.gameDisplay, (0, 255, 0), (int(i[0]), int(i[1])), 3)
-            # pygame.draw.circle(gameDisplay, bot.colour, (int(self.position[0]), int(self.position[1])), 10)
             for i in self.vars.params.poison:
                 pygame.draw.circle(self.vars.params.gameDisplay, (255, 0, 0), (int(i[0]), int(i[1])), 3)
             pygame.display.update()
