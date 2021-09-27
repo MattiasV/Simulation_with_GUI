@@ -20,7 +20,7 @@ class create_bot:
         super().__init__(*args, **kwargs)
 
         self.g1 = g1
-
+        assert self.g1 == g1
         self.position = numpy.array([x, y], dtype='float64')
         self.velocity = numpy.array([random.uniform(-g1.params.max_vel, g1.params.max_vel),
                                      random.uniform(-g1.params.max_vel, g1.params.max_vel)],
@@ -156,7 +156,7 @@ class create_bot:
                              int(self.position[1] + (self.velocity[1] * self.dna[1] * 25))), 2)
 
 
-class sim(threading.Thread):
+class sim(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
