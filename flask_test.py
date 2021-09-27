@@ -1,7 +1,9 @@
-from flask import Flask
+from flask import Flask, render_template
+from markupsafe import escape
+from flask import url_for
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!\n This is a small web application!</p>"
+@app.route('/')
+def index():
+    return render_template('index.html')
