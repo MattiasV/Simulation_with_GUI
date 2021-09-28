@@ -1,9 +1,6 @@
 import sys
-import threading
-from time import sleep
 
 import pygame
-import time
 import random
 import math
 import numpy
@@ -11,8 +8,6 @@ from PyQt5 import QtWidgets
 from pygame import gfxdraw
 from Variables import VAR_class
 from GUI_functions import GUI_setup
-from test_script import *
-import unittest
 
 
 class create_bot:
@@ -157,13 +152,12 @@ class create_bot:
                              int(self.position[1] + (self.velocity[1] * self.dna[1] * 25))), 2)
 
 
-class sim(unittest.TestCase):
+class sim:
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         variables = VAR_class()
         self.vars = variables
-        TestSimulation.test_initial_max_force(self, self.vars.params.initial_max_force) #test
         app = QtWidgets.QApplication(sys.argv)
         w = GUI_setup(variables) # show graphical user interface
         w.showUI()
