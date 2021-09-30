@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 from flask import Flask
 from flask_restful import Resource, Api
 
-from Qt.qt_ui import Ui_Form
+from qt_ui import Ui_Form
 
 app = Flask(__name__)
 api = Api(app)
