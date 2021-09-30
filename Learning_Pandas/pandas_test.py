@@ -38,5 +38,5 @@ data = {
 }
 
 df = pd.DataFrame(data)
-df.plot(kind='hist', x = 'Duration', y = 'Maxpulse')
+df.plot(x='Duration', y='Maxpulse')
 plt.show()

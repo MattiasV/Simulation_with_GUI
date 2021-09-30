@@ -1,5 +1,8 @@
+import sys
+
+from PyQt5 import QtWidgets
 from flask import Flask, url_for, request, render_template, flash, redirect
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, GUI_setup
 
 app = Flask(__name__)
 
@@ -53,4 +56,8 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app_GUI = QtWidgets.QApplication(sys.argv)
+    w = GUI_setup()
+    w.show()
+    app.run(debug=False, host='0.0.0.0')
+    sys.exit(app_GUI.exec_())
