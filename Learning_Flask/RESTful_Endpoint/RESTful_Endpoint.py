@@ -1,24 +1,14 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask
+from flask_restful import Resource, Api
 
 app = Flask(__name__)
+api = Api(app)
 
-incomes = [
-    {'description': 'salary', 'amount': 5000}
-]
+class HelloWorld(Resource):
+    def get(self):
+        return {'hello': 'world', 'Hey': 'hoi'}
 
-@app.route("/")
-def index():
-    return render_template("index.html", content_list=['idk',"aa","bb"])
+api.add_resource(HelloWorld, '/')
 
-@app.route('/incomes')
-def get_incomes():
-    return jsonify(incomes)
-
-
-@app.route('/incomes', methods=['POST'])
-def add_income():
-    incomes.append(request.get_json())
-    return '', 204
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
